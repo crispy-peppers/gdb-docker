@@ -31,7 +31,7 @@ RUN set -x \
     && apt-get clean
 CMD ["bash"]
 RUN apt-get update && apt-get -y dist-upgrade
-RUN apt-get install -y golang git curl kali-linux kali-linux-full
+RUN apt-get install -y golang git curl kali-linux kali-linux-top10
 
 # install kubectl
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
