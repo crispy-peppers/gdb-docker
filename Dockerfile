@@ -27,17 +27,12 @@ RUN echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /e
 ENV DEBIAN_FRONTEND noninteractive
 RUN set -x \
     && apt-get -yqq update \
-    && apt-get -yqq dist-upgrade \
     && apt-get clean
 CMD ["bash"]
-RUN apt-get update && apt-get -y dist-upgrade
-RUN apt-get install -y golang git curl kali-linux kali-linux-top10
-
-# install kubectl
-RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-RUN chmod +x ./kubectl
-RUN mv ./kubectl /usr/local/bin/kubectl
-RUN alias kc="kubectl"
+RUN apt-get update
+RUN apt-get install -y golang git curl gdb 
+RUN git clone https://github.com/longld/peda.git ~/peda
+RUN echo "source ~/peda/peda.py" >> ~/.gdbinit
 
 ENV GOPATH /usr/go
 RUN mkdir $GOPATH
@@ -46,6 +41,14 @@ ENV PATH $GOPATH/bin:$PATH
 RUN go get github.com/yudai/gotty
 
 ENV TERM xterm
+
+
+
+
+COPY vuln.c /vuln.c
+RUN gcc -z execstack -fno-stack-protector -g vuln.c -o vuln
+
+
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
