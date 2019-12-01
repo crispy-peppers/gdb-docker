@@ -1,0 +1,1 @@
+/var/crash/core-%e-%s-%p-%t /proc/sys/kernel/core_pattern
